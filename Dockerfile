@@ -9,5 +9,6 @@ RUN apk --no-cache add \
 	libgcc \
 	libstdc++
 COPY --from=builder /go/bin/confluence /bin/confluence
-EXPOSE 7803 50007
-ENTRYPOINT ["/bin/confluence", "-addr=0.0.0.0:7803"]
+
+EXPOSE 50007
+ENTRYPOINT ["/bin/confluence"]
