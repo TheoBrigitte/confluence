@@ -4,7 +4,7 @@ RUN apk --no-cache add \
 	git
 RUN go get -u -v github.com/anacrolix/confluence
 
-FROM alpine
+FROM alpine as runtime
 RUN apk --no-cache add \
 	libgcc \
 	libstdc++
