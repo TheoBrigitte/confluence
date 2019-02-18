@@ -19,4 +19,7 @@ func init() {
 		httptoo.GzipHandler,
 	).ThenFunc(fileStateHandler))
 	mux.Handle("/metainfo", alice.New(withTorrentContext).ThenFunc(metainfoHandler))
+
+	mux.Handle("/metadata", alice.New(hashOrMagnet).ThenFunc(metadataHandler))
+	mux.Handle("/progress", alice.New(withTorrentContext).ThenFunc(progressHandler))
 }
