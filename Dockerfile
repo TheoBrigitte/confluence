@@ -2,7 +2,16 @@ FROM golang:1-alpine as builder
 RUN apk --no-cache add \
 	build-base \
 	git
-RUN go get -u -v github.com/anacrolix/confluence
+WORKDIR /go/src/github.com/TheoBrigitte/confluence
+
+ENV GO111MODULE=on
+COPY go.mod .
+COPY go.sum .
+RUN go mod download
+
+COPY . .
+RUN go install -ldflags '-s -w' ./cmd/confluence
+#RUN go get -u -v github.com/anacrolix/confluence
 
 FROM alpine as runtime
 RUN apk --no-cache add \
