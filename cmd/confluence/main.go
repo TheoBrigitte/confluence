@@ -9,7 +9,7 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/anacrolix/confluence/confluence"
+	"github.com/TheoBrigitte/confluence/pkg/confluence"
 	_ "github.com/anacrolix/envpprof"
 	"github.com/anacrolix/missinggo/filecache"
 	"github.com/anacrolix/missinggo/x"
@@ -32,6 +32,9 @@ var flags = struct {
 	// used over localhost by other known services.
 	DebugOnMain bool `help:"Expose default serve mux /debug/ endpoints over http"`
 	Dht         bool
+
+	OSUser     string `help:"OpenSubtitles User login"`
+	OSPassword string `help:"OpenSubtitles Password login"`
 }{
 	Addr:          "localhost:8080",
 	CacheCapacity: 10 << 30,
@@ -101,25 +104,35 @@ func getStorage() (_ storage.ClientImpl, onTorrentGrace func(torrent.InfoHash)) 
 }
 
 func main() {
+	// flags
 	log.SetFlags(log.Flags() | log.Lshortfile)
 	tagflag.Parse(&flags)
+
+	// storage
 	storage, onTorrentGraceExtra := getStorage()
 	cl, err := newTorrentClient(storage)
 	if err != nil {
 		log.Fatalf("error creating torrent client: %s", err)
 	}
 	defer cl.Close()
+
+	// debug
 	http.HandleFunc("/debug/dht", func(w http.ResponseWriter, r *http.Request) {
 		for _, ds := range cl.DhtServers() {
 			ds.WriteStatus(w)
 		}
 	})
+
+	confluence.SetOSCredentials(flags.OSUser, flags.OSPassword)
+
+	// HTTP server
 	l, err := net.Listen("tcp", flags.Addr)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer l.Close()
 	log.Printf("serving http at %s", l.Addr())
+
 	var h http.Handler = &confluence.Handler{
 		cl,
 		flags.TorrentGrace,

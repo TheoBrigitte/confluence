@@ -15,6 +15,7 @@ RUN go install -ldflags '-s -w' ./cmd/confluence
 
 FROM alpine as runtime
 RUN apk --no-cache add \
+        ca-certificates \
 	libgcc \
 	libstdc++
 COPY --from=builder /go/bin/confluence /bin/confluence

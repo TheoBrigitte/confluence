@@ -149,8 +149,6 @@ func progressHandler(w http.ResponseWriter, r *http.Request) {
 					eventHandlerContextDone.Add(1)
 					return
 				case <-s.Values:
-					log.Printf("values connection %q %#q", c.Request().Method, c.Request().RequestURI)
-					//i := _i.(torrent.PieceStateChange).Index
 					bars := fileAggregateState(file)
 					if err := websocket.JSON.Send(c, bars); err != nil {
 						if r.Context().Err() == nil {
