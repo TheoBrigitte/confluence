@@ -19,13 +19,15 @@ all: server client
 server: build-server publish-server
 
 build-server:
-	@docker build -t ${DOCKER_IMAGE} -f server/Dockerfile server
+	@docker build -t ${DOCKER_IMAGE} -f Dockerfile .
 
 publish-server:
 	@docker push ${DOCKER_IMAGE}
 
-run-server: build-server
-	@docker run --rm -p 7803:7803 -p 50007:50007 theo01/confluence:latest -addr=0.0.0.0:7803
+run-server:
+	@ go run ./cmd/confluence -addr=0.0.0.0:7803
+
+	#@docker run --rm -p 7803:7803 -p 50007:50007 theo01/confluence:latest -addr=0.0.0.0:7803
 
 
 # Client
