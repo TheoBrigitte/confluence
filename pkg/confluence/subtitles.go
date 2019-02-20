@@ -2,15 +2,19 @@ package confluence
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"io"
 	"log"
 	"net/http"
+	"sort"
+	"strconv"
 	"time"
 
 	"github.com/TheoBrigitte/confluence/pkg/subtitles"
 	"github.com/anacrolix/torrent"
 	astisub "github.com/asticode/go-astisub"
+	"github.com/oz/osdb"
 )
 
 var (
@@ -21,6 +25,13 @@ var (
 func SetOSCredentials(user, password string) {
 	osUser = user
 	osPassword = password
+}
+
+type subtitleResult struct {
+	Downloads string `json:"downloads"`
+	ID        string `json:"id"`
+	Language  string `json:"language"`
+	Name      string `json:"name"`
 }
 
 func subtitlesHandler(w http.ResponseWriter, r *http.Request) {
@@ -59,12 +70,8 @@ func subtitlesHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	config := subtitles.Config{
-		User:      osUser,
-		Password:  osPassword,
-		Start:     head,
-		End:       tail,
-		Size:      size,
-		Languages: []string{"eng"},
+		User:     osUser,
+		Password: osPassword,
 	}
 
 	log.Printf("\nhead\n%v\n%v\n\ntail\n%v\n%v\n\n", head[:10], head[len(head)-10:], tail[:10], tail[len(tail)-10:])
@@ -74,9 +81,50 @@ func subtitlesHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	sr, err := searcher.GetSubtitleReader()
+	subtitles, err := searcher.SearchSubtitles(head, tail, size, []string{"eng"})
 	if err != nil {
 		http.Error(w, fmt.Sprintf("subtitles get failed: %v", err.Error()), http.StatusBadRequest)
+		return
+	}
+
+	sort.Sort(osdb.ByDownloads(subtitles))
+
+	results := []subtitleResult{}
+	for _, s := range subtitles {
+		r := subtitleResult{
+			Downloads: s.SubDownloadsCnt,
+			ID:        s.IDSubtitleFile,
+			Language:  s.LanguageName,
+			Name:      s.MovieFileName,
+		}
+		results = append(results, r)
+	}
+
+	json.NewEncoder(w).Encode(results)
+}
+
+func subtitleHandler(w http.ResponseWriter, r *http.Request) {
+	q := r.URL.Query()
+	idStr := q.Get("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		http.Error(w, fmt.Sprintf("wrong id: id=%s %v", idStr, err.Error()), http.StatusBadRequest)
+		return
+	}
+
+	config := subtitles.Config{
+		User:     osUser,
+		Password: osPassword,
+	}
+	searcher, err := subtitles.New(config)
+	if err != nil {
+		http.Error(w, fmt.Sprintf("searcher failed: %v", err.Error()), http.StatusBadRequest)
+		return
+	}
+
+	sr, err := searcher.GetSubtitleReader(id)
+	if err != nil {
+		http.Error(w, fmt.Sprintf("subtitle get failed: %v", err.Error()), http.StatusBadRequest)
 		return
 	}
 	defer sr.Close()

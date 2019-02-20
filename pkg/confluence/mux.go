@@ -23,5 +23,6 @@ func init() {
 	mux.Handle("/metadata", alice.New(hashOrMagnet).ThenFunc(metadataHandler))
 	mux.Handle("/progress", alice.New(withTorrentContext).ThenFunc(progressHandler))
 	mux.Handle("/subtitles", alice.New(withTorrentContext).ThenFunc(subtitlesHandler))
+	mux.Handle("/subtitle", http.HandlerFunc(subtitleHandler))
 	mux.Handle("/search", http.HandlerFunc(searchHandler))
 }

@@ -18,12 +18,6 @@ const (
 type Chunk [ChunkSize]byte
 
 type Config struct {
-	Languages []string
-	Size      int64
-
-	Start Chunk
-	End   Chunk
-
 	User     string
 	Password string
 }
@@ -34,12 +28,6 @@ type Searcher interface {
 
 type searcher struct {
 	client *osdb.Client
-
-	languages []string
-	size      int64
-
-	start Chunk
-	end   Chunk
 }
 
 func New(config Config) (*searcher, error) {
@@ -55,23 +43,13 @@ func New(config Config) (*searcher, error) {
 
 	s := &searcher{
 		client: c,
-
-		start:     config.Start,
-		end:       config.End,
-		size:      config.Size,
-		languages: config.Languages,
 	}
 
 	return s, nil
 }
 
-func (s searcher) GetSubtitleReader() (io.ReadCloser, error) {
-	sub, err := s.GetSubtitle()
-	if err != nil {
-		return nil, err
-	}
-
-	files, err := s.client.DownloadSubtitles(osdb.Subtitles{*sub})
+func (s searcher) GetSubtitleReader(id int) (io.ReadCloser, error) {
+	files, err := s.client.DownloadSubtitlesByIds([]int{id})
 	if err != nil {
 		return nil, err
 	}
@@ -82,8 +60,8 @@ func (s searcher) GetSubtitleReader() (io.ReadCloser, error) {
 	return files[0].Reader()
 }
 
-func (s searcher) GetSubtitle() (*osdb.Subtitle, error) {
-	sub, err := s.SearchSubtitles()
+func (s searcher) GetSubtitle(start, end Chunk, size int64, languages []string) (*osdb.Subtitle, error) {
+	sub, err := s.SearchSubtitles(start, end, size, languages)
 	if err != nil {
 		return nil, err
 	}
@@ -96,20 +74,20 @@ func (s searcher) GetSubtitle() (*osdb.Subtitle, error) {
 	return subtitle, nil
 }
 
-func (s searcher) SearchSubtitles() (osdb.Subtitles, error) {
-	hash, err := s.computeHash()
+func (s searcher) SearchSubtitles(start, end Chunk, size int64, languages []string) (osdb.Subtitles, error) {
+	hash, err := s.computeHash(start, end, size)
 	if err != nil {
 		return nil, err
 	}
 
-	params := s.params(hash)
+	params := s.params(hash, size, languages)
 	log.Printf("%+v", params)
 
 	return s.client.SearchSubtitles(params)
 }
 
-func (s *searcher) computeHash() (hash uint64, err error) {
-	buf := append(s.start[:], s.end[:]...)
+func (s *searcher) computeHash(start, end Chunk, size int64) (hash uint64, err error) {
+	buf := append(start[:], end[:]...)
 
 	// Convert to uint64, and sum.
 	var nums [(ChunkSize * 2) / 8]uint64
@@ -123,10 +101,10 @@ func (s *searcher) computeHash() (hash uint64, err error) {
 		hash += num
 	}
 
-	return hash + uint64(s.size), nil
+	return hash + uint64(size), nil
 }
 
-func (s searcher) params(hash uint64) *[]interface{} {
+func (s searcher) params(hash uint64, size int64, languages []string) *[]interface{} {
 	params := []interface{}{
 		s.client.Token,
 		[]struct {
@@ -135,8 +113,8 @@ func (s searcher) params(hash uint64) *[]interface{} {
 			Langs string `xmlrpc:"sublanguageid"`
 		}{{
 			hashString(hash),
-			s.size,
-			strings.Join(s.languages, ","),
+			size,
+			strings.Join(languages, ","),
 		}},
 	}
 	return &params
