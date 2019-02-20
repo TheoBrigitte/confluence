@@ -1,0 +1,144 @@
+# github.com/RoaringBitmap/roaring v0.4.16
+github.com/RoaringBitmap/roaring
+# github.com/anacrolix/dht v0.0.0-20181129074040-b09db78595aa
+github.com/anacrolix/dht
+github.com/anacrolix/dht/krpc
+# github.com/anacrolix/envpprof v0.0.0-20180404065416-323002cec2fa
+github.com/anacrolix/envpprof
+# github.com/anacrolix/go-libutp v0.0.0-20180808010927-aebbeb60ea05
+github.com/anacrolix/go-libutp
+# github.com/anacrolix/log v0.0.0-20180808012509-286fcf906b48
+github.com/anacrolix/log
+# github.com/anacrolix/missinggo v0.1.0
+github.com/anacrolix/missinggo/filecache
+github.com/anacrolix/missinggo/x
+github.com/anacrolix/missinggo
+github.com/anacrolix/missinggo/httptoo
+github.com/anacrolix/missinggo/refclose
+github.com/anacrolix/missinggo/orderedmap
+github.com/anacrolix/missinggo/pproffd
+github.com/anacrolix/missinggo/resource
+github.com/anacrolix/missinggo/slices
+github.com/anacrolix/missinggo/bitmap
+github.com/anacrolix/missinggo/conntrack
+github.com/anacrolix/missinggo/expect
+github.com/anacrolix/missinggo/iter
+github.com/anacrolix/missinggo/perf
+github.com/anacrolix/missinggo/prioritybitmap
+github.com/anacrolix/missinggo/pubsub
+github.com/anacrolix/missinggo/mime
+github.com/anacrolix/missinggo/inproc
+# github.com/anacrolix/mmsg v0.0.0-20180808012353-5adb2c1127c0
+github.com/anacrolix/mmsg
+github.com/anacrolix/mmsg/socket
+# github.com/anacrolix/sync v0.0.0-20180808010631-44578de4e778
+github.com/anacrolix/sync
+# github.com/anacrolix/tagflag v0.0.0-20180803105420-3a8ff5428f76
+github.com/anacrolix/tagflag
+# github.com/anacrolix/torrent v1.0.0
+github.com/anacrolix/torrent
+github.com/anacrolix/torrent/iplist
+github.com/anacrolix/torrent/storage
+github.com/anacrolix/torrent/bencode
+github.com/anacrolix/torrent/metainfo
+github.com/anacrolix/torrent/mse
+github.com/anacrolix/torrent/peer_protocol
+github.com/anacrolix/torrent/tracker
+github.com/anacrolix/torrent/mmap_span
+github.com/anacrolix/torrent/logonce
+# github.com/anacrolix/utp v0.0.0-20180219060659-9e0e1d1d0572
+github.com/anacrolix/utp
+# github.com/asticode/go-astilog v1.0.0
+github.com/asticode/go-astilog
+# github.com/asticode/go-astisub v0.0.0-20181231080834-e2ca1c7ce8f4
+github.com/asticode/go-astisub
+# github.com/asticode/go-astitools v1.0.0
+github.com/asticode/go-astitools/bits
+github.com/asticode/go-astitools/byte
+github.com/asticode/go-astitools/map
+github.com/asticode/go-astitools/ptr
+github.com/asticode/go-astitools/string
+# github.com/asticode/go-astits v0.0.0-20190105100228-f4a041fc41e5
+github.com/asticode/go-astits
+# github.com/boltdb/bolt v1.3.1
+github.com/boltdb/bolt
+# github.com/bradfitz/iter v0.0.0-20140124041915-454541ec3da2
+github.com/bradfitz/iter
+# github.com/davecgh/go-spew v1.1.1
+github.com/davecgh/go-spew/spew
+# github.com/dustin/go-humanize v1.0.0
+github.com/dustin/go-humanize
+# github.com/edsrzf/mmap-go v1.0.0
+github.com/edsrzf/mmap-go
+# github.com/elgatito/upnp v0.0.0-20180711183757-2f244d205f9a
+github.com/elgatito/upnp
+# github.com/glycerine/go-unsnap-stream v0.0.0-20181221182339-f9677308dec2
+github.com/glycerine/go-unsnap-stream
+# github.com/golang/snappy v0.0.0-20180518054509-2e65f85255db
+github.com/golang/snappy
+# github.com/google/btree v0.0.0-20180813153112-4030bb1f1f0c
+github.com/google/btree
+# github.com/huandu/xstrings v1.2.0
+github.com/huandu/xstrings
+# github.com/justinas/alice v0.0.0-20171023064455-03f45bd4b7da
+github.com/justinas/alice
+# github.com/kolo/xmlrpc v0.0.0-20181023172212-16bdd962781d
+github.com/kolo/xmlrpc
+# github.com/konsorten/go-windows-terminal-sequences v1.0.1
+github.com/konsorten/go-windows-terminal-sequences
+# github.com/mattn/go-colorable v0.0.9
+github.com/mattn/go-colorable
+# github.com/mattn/go-isatty v0.0.4
+github.com/mattn/go-isatty
+# github.com/mattn/go-sqlite3 v1.10.0
+github.com/mattn/go-sqlite3
+# github.com/mschoch/smat v0.0.0-20160514031455-90eadee771ae
+github.com/mschoch/smat
+# github.com/op/go-logging v0.0.0-20160315200505-970db520ece7
+github.com/op/go-logging
+# github.com/oz/osdb v0.0.0-20190204162748-da06ada9cdc1
+github.com/oz/osdb
+# github.com/philhofer/fwd v1.0.0
+github.com/philhofer/fwd
+# github.com/pkg/errors v0.8.1
+github.com/pkg/errors
+# github.com/ryszard/goskiplist v0.0.0-20150312221310-2dfbae5fcf46
+github.com/ryszard/goskiplist/skiplist
+# github.com/sirupsen/logrus v1.2.0
+github.com/sirupsen/logrus
+# github.com/spaolacci/murmur3 v0.0.0-20180118202830-f09979ecbc72
+github.com/spaolacci/murmur3
+# github.com/tinylib/msgp v1.1.0
+github.com/tinylib/msgp/msgp
+# github.com/willf/bitset v1.1.9
+github.com/willf/bitset
+# github.com/willf/bloom v2.0.3+incompatible
+github.com/willf/bloom
+# golang.org/x/crypto v0.0.0-20181203042331-505ab145d0a9
+golang.org/x/crypto/ssh/terminal
+# golang.org/x/net v0.0.0-20190107210223-45ffb0cd1ba0
+golang.org/x/net/websocket
+golang.org/x/net/proxy
+golang.org/x/net/internal/socks
+# golang.org/x/sys v0.0.0-20190107173414-20be8e55dc7b
+golang.org/x/sys/unix
+golang.org/x/sys/windows
+# golang.org/x/text v0.3.0
+golang.org/x/text/unicode/norm
+golang.org/x/text/encoding
+golang.org/x/text/encoding/htmlindex
+golang.org/x/text/transform
+golang.org/x/text/encoding/internal/identifier
+golang.org/x/text/encoding/charmap
+golang.org/x/text/encoding/japanese
+golang.org/x/text/encoding/korean
+golang.org/x/text/encoding/simplifiedchinese
+golang.org/x/text/encoding/traditionalchinese
+golang.org/x/text/encoding/unicode
+golang.org/x/text/language
+golang.org/x/text/encoding/internal
+golang.org/x/text/internal/utf8internal
+golang.org/x/text/runes
+golang.org/x/text/internal/tag
+# golang.org/x/time v0.0.0-20181108054448-85acf8d2951c
+golang.org/x/time/rate
