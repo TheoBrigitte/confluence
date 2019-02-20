@@ -2,10 +2,10 @@ package yify
 
 import (
 	"net/http"
-	"net/url"
 )
 
-type searchResponse struct {
+// api response
+type searchAPIResponse struct {
 	Data          searchResponseData `json:"data"`
 	Status        string             `json:"status"`
 	StatusMessage string             `json:"status_message"`
@@ -39,14 +39,10 @@ type torrent struct {
 	URL       string `json:"url"`
 }
 
-var (
-	searchEndpoint, _ = url.Parse("list_movies.json")
-)
-
 func (c client) SearchMovies(query string) (*searchResponse, error) {
 	u := searchEndpoint
 	q := u.Query()
-	q.Set("query_term", query)
+	q.Set(searchQueryKey, query)
 	u.RawQuery = q.Encode()
 	res, err := c.do(http.MethodGet, u.String(), nil)
 	if err != nil {

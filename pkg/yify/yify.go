@@ -9,8 +9,11 @@ import (
 )
 
 var (
-	baseURL, _ = url.Parse("https://yts.am/api/v2/")
-	//https://yts.am/api/v2/list_movies.json?query_term=deadpool
+	baseURL, _ = url.Parse("https://yts.am/ajax/")
+
+	//https://yts.am/api/v2/list_movies.json?query_term=test
+	searchEndpoint, _ = url.Parse("list_movies.json")
+	searchQueryKey    = "query_term"
 )
 
 type client struct {
