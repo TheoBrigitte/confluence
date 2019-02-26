@@ -5,7 +5,7 @@ import (
 )
 
 // api response
-type searchAPIResponse struct {
+type searchResponse struct {
 	Data          searchResponseData `json:"data"`
 	Status        string             `json:"status"`
 	StatusMessage string             `json:"status_message"`
