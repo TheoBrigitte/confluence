@@ -1,0 +1,22 @@
+version: 2
+jobs:
+  server:
+    docker:
+      - image: docker:latest
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run: make package-server
+  client:
+    docker:
+      - image: docker:latest
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run: make package-client
+workflows:
+  version: 2
+  build:
+    jobs:
+      - server
+      - client
