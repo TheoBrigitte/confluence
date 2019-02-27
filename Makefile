@@ -15,7 +15,7 @@ build-server:
 	@go install -v -ldflags '-s -w' ./cmd/confluence
 
 package-server:
-	@docker build -t ${DOCKER_IMAGE} -f Dockerfile.server .
+	@docker build -t ${DOCKER_IMAGE} .
 
 publish-server:
 	@docker push ${DOCKER_IMAGE}
