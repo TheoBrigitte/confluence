@@ -6,7 +6,9 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
+      - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
       - run: make package-server
+      - run: make publish-server
 workflows:
   version: 2
   build:
