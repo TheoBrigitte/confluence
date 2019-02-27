@@ -6,12 +6,6 @@ All the torrent operations happens on the server side, which means it is only se
 
 This repository holds both the server and client code.
 
-## Example
-
-magnet: magnet:?xt=urn:btih:3945AAE317B45183150400E128D007806EB4CEA1&dn=Conan+the+Barbarian+%281982%29+%5B1080p%5D+%5BYTS.AM%5D&tr=udp%3A%2F%2Fglotorrents.pw%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Fp4p.arenabg.ch%3A1337&tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337
-magnet: magnet:?xt=urn:btih:00102086B401F8CE049BE55410FF9C69D87BB740&dn=Deadpool+2+%282018%29+%5B720p%5D+%5BYTS.AM%5D&tr=udp%3A%2F%2Fglotorrents.pw%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Fp4p.arenabg.ch%3A1337&tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337
-
-
 ## Know issues
 
 #### OpenSubtitles API
