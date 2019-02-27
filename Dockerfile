@@ -9,8 +9,9 @@ COPY go.mod .
 COPY go.sum .
 COPY cmd cmd
 COPY pkg pkg
+COPY Makefile .
 
-RUN go install -v -ldflags '-s -w' ./cmd/confluence
+RUN make build-server
 
 
 FROM alpine:latest as runtime
