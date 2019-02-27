@@ -24,4 +24,13 @@ run:
 	@go run ./cmd/confluence -addr=0.0.0.0:7803
 	#@docker run --rm -p 7803:7803 -p 50007:50007 theo01/confluence:latest -addr=0.0.0.0:7803
 
+systemd.unit:
+	@docker run \
+		--rm \
+		-v $(PWD)/systemd:/tmp/systemd \
+		theo01/template \
+		-template /tmp/systemd/confluence.service.tmpl \
+		-out /tmp/systemd/confluence.service \
+		-value $(VERSION)
+
 .PHONY: server build package publish run

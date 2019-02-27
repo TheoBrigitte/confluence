@@ -9,6 +9,7 @@ jobs:
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
       - run: make package
       - run: make publish
+      - run: make systemd.unit
 workflows:
   version: 2
   build:

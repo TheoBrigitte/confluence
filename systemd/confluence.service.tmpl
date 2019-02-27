@@ -1,0 +1,18 @@
+[Unit]
+Description=Confluence server
+BindsTo=docker.service
+After=docker.service
+
+[Service]
+Environment=NAME=confluence
+Restart=on-failure
+RestartSec=10
+ExecStartPre=-/usr/bin/docker kill ${NAME}
+ExecStartPre=-/usr/bin/docker rm ${NAME}
+ExecStart=/usr/bin/docker run --name ${NAME} \
+    -P \
+    theo01/confluence:{{ .Version }}
+ExecStop=/usr/bin/docker stop ${NAME}
+
+[Install]
+WantedBy=multi-user.target
