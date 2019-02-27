@@ -9,19 +9,19 @@ all: server
 
 # Server
 
-server: package-server publish-server
+server: package publish
 
-build-server:
+build:
 	@go install -v -ldflags '-s -w' ./cmd/confluence
 
-package-server:
+package:
 	@docker build -t ${DOCKER_IMAGE} .
 
-publish-server:
+publish:
 	@docker push ${DOCKER_IMAGE}
 
-run-server:
+run:
 	@go run ./cmd/confluence -addr=0.0.0.0:7803
 	#@docker run --rm -p 7803:7803 -p 50007:50007 theo01/confluence:latest -addr=0.0.0.0:7803
 
-.PHONY: server build-server package-server publish-server run-server
+.PHONY: server build package publish run

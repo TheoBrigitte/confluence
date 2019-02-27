@@ -11,7 +11,7 @@ COPY cmd cmd
 COPY pkg pkg
 COPY Makefile .
 
-RUN make build-server
+RUN make build
 
 
 FROM alpine:latest as runtime

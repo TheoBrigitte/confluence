@@ -1,16 +1,16 @@
 version: 2
 jobs:
-  server:
+  build:
     docker:
       - image: circleci/buildpack-deps
     steps:
       - checkout
       - setup_remote_docker
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
-      - run: make package-server
-      - run: make publish-server
+      - run: make package
+      - run: make publish
 workflows:
   version: 2
   build:
     jobs:
-      - server
+      - build
