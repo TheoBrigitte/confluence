@@ -27,10 +27,11 @@ run:
 systemd.unit:
 	@docker run \
 		--rm \
+		-i \
 		-v $(PWD)/systemd:/tmp/systemd \
 		theo01/template \
 		-template /tmp/systemd/confluence.service.tmpl \
 		-out /tmp/systemd/confluence.service \
-		-value $(VERSION)
+		<<< '{"Version":"$(VERSION)"}'
 
 .PHONY: server build package publish run
