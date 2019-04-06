@@ -1,7 +1,7 @@
 GROUP := github.com/TheoBrigitte
 NAME := confluence
 
-DOCKER_IMAGE := theo01/${NAME}
+DOCKER_IMAGE := theo01/${NAME}:latest
 
 VERSION := $(shell git describe --always --long --dirty --tags || date)
 
