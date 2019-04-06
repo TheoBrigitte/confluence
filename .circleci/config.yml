@@ -7,8 +7,8 @@ jobs:
       - checkout
       - setup_remote_docker
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
-      - run: make package
-      - run: make publish
+      - run: make docker-image
+      - run: make docker-push
       - run: make systemd.unit
 workflows:
   version: 2

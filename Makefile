@@ -5,19 +5,15 @@ DOCKER_IMAGE := theo01/${NAME}
 
 VERSION := $(shell git describe --always --long --dirty --tags || date)
 
-all: server
-
-# Server
-
-server: package publish
+all: build
 
 build:
 	@go install -v -ldflags '-s -w' ./cmd/confluence
 
-package:
+docker-image:
 	@docker build -t ${DOCKER_IMAGE} .
 
-publish:
+docker-push:
 	@docker push ${DOCKER_IMAGE}
 
 run:
@@ -34,4 +30,4 @@ systemd.unit:
 		-out /tmp/systemd/confluence.service \
 		<<< '{"Version":"$(VERSION)"}'
 
-.PHONY: server build package publish run
+.PHONY: build docker-image docker-push run
