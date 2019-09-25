@@ -13,6 +13,7 @@ import (
 
 const (
 	ChunkSize = 65536
+	UserAgent = "SubDownloader 2.0.5.1"
 )
 
 type Chunk [ChunkSize]byte
@@ -35,6 +36,8 @@ func New(config Config) (*searcher, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	c.UserAgent = UserAgent
 
 	err = c.LogIn(config.User, config.Password, "eng")
 	if err != nil {
