@@ -1,7 +1,5 @@
 GROUP := github.com/TheoBrigitte
 NAME := confluence
-include /etc/confluence/opensubtitles_credentials
-export
 
 DOCKER_IMAGE := theo01/${NAME}:latest
 
@@ -33,6 +31,8 @@ systemd.unit:
 		<<< '{"Version":"$(VERSION)"}'
 
 integration-test:
+include /etc/confluence/opensubtitles_credentials
+export
 	@go test ./... \
 	    -tags=integration \
 	    -osUser=$(OPENSUBTITLES_USER) \
