@@ -19,6 +19,13 @@ func searchHandler(w http.ResponseWriter, r *http.Request) {
 
 	var m = make(chan []movie.MovieTorrent)
 	var g errgroup.Group
+	var movies []movie.MovieTorrent
+
+	go func() {
+		for i := 0; i < 2; i++ {
+			movies = append(movies, <-m...)
+		}
+	}()
 
 	// yify
 	{
@@ -58,11 +65,6 @@ func searchHandler(w http.ResponseWriter, r *http.Request) {
 	if err := g.Wait(); err != nil {
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return
-	}
-
-	var movies []movie.MovieTorrent
-	for i := 0; i < 2; i++ {
-		movies = append(movies, <-m...)
 	}
 
 	json.NewEncoder(w).Encode(movies)
