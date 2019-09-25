@@ -30,13 +30,4 @@ systemd.unit:
 		-out /tmp/systemd/confluence.service \
 		<<< '{"Version":"$(VERSION)"}'
 
-integration-test:
-include /etc/confluence/opensubtitles_credentials
-export
-	@go test ./... \
-	    -tags=integration \
-	    -osUser=$(OPENSUBTITLES_USER) \
-	    -osPassword=$(OPENSUBTITLES_PASSWORD) \
-	    -osUserAgent=$(OPENSUBTITLES_USERAGENT)
-
 .PHONY: build docker-image docker-push run
