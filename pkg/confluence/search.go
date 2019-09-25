@@ -21,24 +21,25 @@ func searchHandler(w http.ResponseWriter, r *http.Request) {
 	var g errgroup.Group
 	var movies []movie.MovieTorrent
 
-	go func() {
+	g.Go(func() error {
 		for i := 0; i < 2; i++ {
 			movies = append(movies, <-movieChan...)
 		}
-	}()
+		return nil
+	})
 
 	// yify
 	{
 		g.Go(func() error {
-			movies := []movie.MovieTorrent{}
-			defer func() { movieChan <- movies }()
+			ms := []movie.MovieTorrent{}
+			defer func() { movieChan <- ms }()
 			y := yify.New()
 			m, err := y.SearchMoviesWithBestTorrent(query)
 			if err != nil {
 				return fmt.Errorf("yify search failed: %v", err.Error())
 			}
 			if len(m) > 0 {
-				movies = m
+				ms = m
 			}
 
 			return nil
@@ -48,8 +49,8 @@ func searchHandler(w http.ResponseWriter, r *http.Request) {
 	// cpasbien
 	{
 		g.Go(func() error {
-			var movies []movie.MovieTorrent
-			defer func() { movieChan <- movies }()
+			ms := []movie.MovieTorrent{}
+			defer func() { movieChan <- ms }()
 			c, err := cpasbien.New(cpasbien.Config{})
 			if err != nil {
 				return fmt.Errorf("cpasbien init failed: %v", err.Error())
@@ -59,7 +60,7 @@ func searchHandler(w http.ResponseWriter, r *http.Request) {
 				return fmt.Errorf("cpasbien search failed: %v", err.Error())
 			}
 			if len(m) > 0 {
-				movies = m
+				ms = m
 			}
 
 			return nil
