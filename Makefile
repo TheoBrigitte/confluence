@@ -1,5 +1,7 @@
 GROUP := github.com/TheoBrigitte
 NAME := confluence
+include /etc/confluence/opensubtitles_credentials
+export
 
 DOCKER_IMAGE := theo01/${NAME}:latest
 
@@ -29,5 +31,12 @@ systemd.unit:
 		-template /tmp/systemd/confluence.service.tmpl \
 		-out /tmp/systemd/confluence.service \
 		<<< '{"Version":"$(VERSION)"}'
+
+integration-test:
+	@go test ./... \
+	    -tags=integration \
+	    -osUser=$(OPENSUBTITLES_USER) \
+	    -osPassword=$(OPENSUBTITLES_PASSWORD) \
+	    -osUserAgent=$(OPENSUBTITLES_USERAGENT)
 
 .PHONY: build docker-image docker-push run
