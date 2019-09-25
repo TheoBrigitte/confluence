@@ -33,8 +33,9 @@ var flags = struct {
 	DebugOnMain bool `help:"Expose default serve mux /debug/ endpoints over http"`
 	Dht         bool
 
-	OSUser     string `help:"OpenSubtitles User login"`
-	OSPassword string `help:"OpenSubtitles Password login"`
+	OSUser      string `help:"OpenSubtitles User login"`
+	OSPassword  string `help:"OpenSubtitles Password login"`
+	OSUserAgent string `help:"OpenSubtitles User Agent"`
 }{
 	Addr:          "localhost:8080",
 	CacheCapacity: 10 << 30,
@@ -123,7 +124,7 @@ func main() {
 		}
 	})
 
-	confluence.SetOSCredentials(flags.OSUser, flags.OSPassword)
+	confluence.SetOSCredentials(flags.OSUser, flags.OSPassword, flags.OSUserAgent)
 
 	// HTTP server
 	l, err := net.Listen("tcp", flags.Addr)

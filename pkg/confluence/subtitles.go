@@ -18,13 +18,15 @@ import (
 )
 
 var (
-	osUser     string
-	osPassword string
+	osUser      string
+	osPassword  string
+	osUserAgent string
 )
 
-func SetOSCredentials(user, password string) {
+func SetOSCredentials(user, password, useragent string) {
 	osUser = user
 	osPassword = password
+	osUserAgent = useragent
 }
 
 type subtitleResult struct {
@@ -70,8 +72,9 @@ func subtitlesHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	config := subtitles.Config{
-		User:     osUser,
-		Password: osPassword,
+		User:      osUser,
+		Password:  osPassword,
+		UserAgent: osUserAgent,
 	}
 
 	log.Printf("\nhead\n%v\n%v\n\ntail\n%v\n%v\n\n", head[:10], head[len(head)-10:], tail[:10], tail[len(tail)-10:])
@@ -113,8 +116,9 @@ func subtitleHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	config := subtitles.Config{
-		User:     osUser,
-		Password: osPassword,
+		User:      osUser,
+		Password:  osPassword,
+		UserAgent: osUserAgent,
 	}
 	searcher, err := subtitles.New(config)
 	if err != nil {

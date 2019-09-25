@@ -13,14 +13,14 @@ import (
 
 const (
 	ChunkSize = 65536
-	UserAgent = "TemporaryUserAgent"
 )
 
 type Chunk [ChunkSize]byte
 
 type Config struct {
-	User     string
-	Password string
+	User      string
+	Password  string
+	UserAgent string
 }
 
 type Searcher interface {
@@ -37,7 +37,7 @@ func New(config Config) (*searcher, error) {
 		return nil, err
 	}
 
-	c.UserAgent = UserAgent
+	c.UserAgent = config.UserAgent
 
 	err = c.LogIn(config.User, config.Password, "eng")
 	if err != nil {
