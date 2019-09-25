@@ -131,10 +131,10 @@ func (c *client) movieProcess(r io.ReadCloser) (*movie.MovieTorrent, error) {
 		return nil, err
 	}
 	m := &movie.MovieTorrent{
-		MovieBase: MovieBase{
+		MovieBase: movie.MovieBase{
 			Title: movieTitle(doc),
 		},
-		Torrent: torrent{
+		Torrent: movie.Torrent{
 			Hash: hash,
 		},
 	}
