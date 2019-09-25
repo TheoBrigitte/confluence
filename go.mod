@@ -1,6 +1,7 @@
 module github.com/TheoBrigitte/confluence
 
 require (
+	github.com/PuerkitoBio/goquery v1.5.0
 	github.com/anacrolix/confluence v0.0.0-20190111025530-f54883566db1 // indirect
 	github.com/anacrolix/envpprof v0.0.0-20180404065416-323002cec2fa
 	github.com/anacrolix/missinggo v0.1.0
@@ -14,5 +15,8 @@ require (
 	github.com/kolo/xmlrpc v0.0.0-20181023172212-16bdd962781d // indirect
 	github.com/oz/osdb v0.0.0-20190204162748-da06ada9cdc1
 	golang.org/x/net v0.0.0-20190107210223-45ffb0cd1ba0
+	golang.org/x/sync v0.0.0-20190911185100-cd5d95a43a6e
 	golang.org/x/text v0.3.0 // indirect
 )
+
+go 1.13
