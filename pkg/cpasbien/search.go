@@ -37,6 +37,9 @@ func (c *client) Search(query string) ([]movie.MovieTorrent, error) {
 	if err != nil {
 		return nil, err
 	}
+	if len(links) > 10 {
+		links = links[:10]
+	}
 
 	return c.getDetails(links)
 }
