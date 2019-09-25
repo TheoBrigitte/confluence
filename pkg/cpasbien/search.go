@@ -3,6 +3,7 @@ package cpasbien
 import (
 	"fmt"
 	"io"
+	"log"
 	"net/url"
 	"strconv"
 	"strings"
@@ -24,7 +25,9 @@ func (c *client) Search(query string) ([]movie.MovieTorrent, error) {
 	if err != nil {
 		return nil, err
 	}
+	log.Printf("request %s %#q", "GET", u.String())
 	res, err := c.http.Get(u.String())
+	log.Printf("response %s body=%d %v", res.Status, res.ContentLength, res.Header)
 	if err != nil {
 		return nil, err
 	}
