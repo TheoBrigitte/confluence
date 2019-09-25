@@ -13,7 +13,7 @@ import (
 
 const (
 	ChunkSize = 65536
-	UserAgent = "SubDownloader 2.0.5.1"
+	UserAgent = "TemporaryUserAgent"
 )
 
 type Chunk [ChunkSize]byte
