@@ -112,10 +112,11 @@ func (c *client) movieDetail(url *url.URL, movieChan chan movie.MovieTorrent) er
 	}
 	defer res.Body.Close()
 
-	movie, err = c.movieProcess(res.Body)
+	m, err := c.movieProcess(res.Body)
 	if err != nil {
 		return err
 	}
+	movie = m
 	movie.Torrent.URL = url.String()
 
 	parts := strings.Split(strings.TrimSuffix(url.String(), ".html"), "-")

@@ -31,13 +31,13 @@ func searchHandler(w http.ResponseWriter, r *http.Request) {
 	{
 		g.Go(func() error {
 			var movies []movie.MovieTorrent
-			var err error
 			defer func() { m <- movies }()
 			y := yify.New()
-			movies, err = y.SearchMoviesWithBestTorrent(query)
+			ms, err := y.SearchMoviesWithBestTorrent(query)
 			if err != nil {
 				return fmt.Errorf("yify search failed: %v", err.Error())
 			}
+			movies = ms
 
 			return nil
 		})
@@ -47,16 +47,16 @@ func searchHandler(w http.ResponseWriter, r *http.Request) {
 	{
 		g.Go(func() error {
 			var movies []movie.MovieTorrent
-			var err error
 			defer func() { m <- movies }()
 			c, err := cpasbien.New(cpasbien.Config{})
 			if err != nil {
 				return fmt.Errorf("cpasbien init failed: %v", err.Error())
 			}
-			movies, err = c.Search(query)
+			ms, err := c.Search(query)
 			if err != nil {
 				return fmt.Errorf("cpasbien search failed: %v", err.Error())
 			}
+			movies = ms
 
 			return nil
 		})
