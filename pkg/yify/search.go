@@ -2,6 +2,8 @@ package yify
 
 import (
 	"net/http"
+
+	"github.com/TheoBrigitte/confluence/pkg/movie"
 )
 
 // api response
@@ -12,31 +14,10 @@ type searchResponse struct {
 }
 
 type searchResponseData struct {
-	Limit      int     `json:"limit"`
-	MovieCount int     `json:"movie_count"`
-	Movies     []movie `json:"movies"`
-	PageNumber int     `json:"page_number"`
-}
-
-type movieBase struct {
-	ID    int    `json:"id"`
-	Title string `json:"title"`
-	Year  int    `json:"year"`
-}
-
-type movie struct {
-	movieBase
-	Torrents []torrent `json:"torrents"`
-}
-
-type torrent struct {
-	Hash      string `json:"hash"`
-	Quality   string `json:"quality"`
-	Seeds     int    `json:"seeds"`
-	Size      string `json:"size"`
-	SizeBytes int    `json:"size_bytes"`
-	Type      string `json:"type"`
-	URL       string `json:"url"`
+	Limit      int           `json:"limit"`
+	MovieCount int           `json:"movie_count"`
+	Movies     []movie.Movie `json:"movies"`
+	PageNumber int           `json:"page_number"`
 }
 
 func (c client) SearchMovies(query string) (*searchResponse, error) {
