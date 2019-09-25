@@ -27,7 +27,7 @@ func (c *client) Search(query string) ([]movie.MovieTorrent, error) {
 	}
 	log.Printf("request %s %#q", "GET", u.String())
 	res, err := c.http.Get(u.String())
-	log.Printf("response %s body=%d %v", res.Status, res.ContentLength, res.Header)
+	log.Printf("response %s %#q body=%d %v", res.Status, u.String(), res.ContentLength, res.Header)
 	if err != nil {
 		return nil, err
 	}
@@ -106,7 +106,7 @@ func (c *client) movieDetail(url *url.URL, movieChan chan movie.MovieTorrent) er
 
 	log.Printf("request %s %#q", "GET", url.String())
 	res, err := c.http.Get(url.String())
-	log.Printf("response %s body=%d %v", res.Status, res.ContentLength, res.Header)
+	log.Printf("response %s %#q body=%d %v", res.Status, url.String(), res.ContentLength, res.Header)
 	if err != nil {
 		return err
 	}
