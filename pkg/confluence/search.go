@@ -13,31 +13,33 @@ import (
 )
 
 func searchHandler(w http.ResponseWriter, r *http.Request) {
-	log.Printf("searchHandler")
 	q := r.URL.Query()
 	query := q.Get("query")
+	log.Printf("query: %#q\n", query)
 
-	var m = make(chan []movie.MovieTorrent)
+	var movieChan = make(chan []movie.MovieTorrent)
 	var g errgroup.Group
 	var movies []movie.MovieTorrent
 
 	go func() {
 		for i := 0; i < 2; i++ {
-			movies = append(movies, <-m...)
+			movies = append(movies, <-movieChan...)
 		}
 	}()
 
 	// yify
 	{
 		g.Go(func() error {
-			var movies []movie.MovieTorrent
-			defer func() { m <- movies }()
+			movies := []movie.MovieTorrent{}
+			defer func() { movieChan <- movies }()
 			y := yify.New()
-			ms, err := y.SearchMoviesWithBestTorrent(query)
+			m, err := y.SearchMoviesWithBestTorrent(query)
 			if err != nil {
 				return fmt.Errorf("yify search failed: %v", err.Error())
 			}
-			movies = ms
+			if len(m) > 0 {
+				movies = m
+			}
 
 			return nil
 		})
@@ -47,16 +49,18 @@ func searchHandler(w http.ResponseWriter, r *http.Request) {
 	{
 		g.Go(func() error {
 			var movies []movie.MovieTorrent
-			defer func() { m <- movies }()
+			defer func() { movieChan <- movies }()
 			c, err := cpasbien.New(cpasbien.Config{})
 			if err != nil {
 				return fmt.Errorf("cpasbien init failed: %v", err.Error())
 			}
-			ms, err := c.Search(query)
+			m, err := c.Search(query)
 			if err != nil {
 				return fmt.Errorf("cpasbien search failed: %v", err.Error())
 			}
-			movies = ms
+			if len(m) > 0 {
+				movies = m
+			}
 
 			return nil
 		})
