@@ -105,11 +105,13 @@ func getStorage() (_ storage.ClientImpl, onTorrentGrace func(torrent.InfoHash)) 
 }
 
 func main() {
-	// flags
+	// logs configuration: set short filename format
 	log.SetFlags(log.Flags() | log.Lshortfile)
+
+	// command line arguments
 	tagflag.Parse(&flags)
 
-	// storage
+	// torrent client
 	storage, onTorrentGraceExtra := getStorage()
 	cl, err := newTorrentClient(storage)
 	if err != nil {
@@ -117,13 +119,14 @@ func main() {
 	}
 	defer cl.Close()
 
-	// debug
+	// debug endpoint
 	http.HandleFunc("/debug/dht", func(w http.ResponseWriter, r *http.Request) {
 		for _, ds := range cl.DhtServers() {
 			ds.WriteStatus(w)
 		}
 	})
 
+	// subtitles configuration: set opensubtitles credentials
 	confluence.SetOSCredentials(flags.OSUser, flags.OSPassword, flags.OSUserAgent)
 
 	// HTTP server
@@ -132,7 +135,6 @@ func main() {
 		log.Fatal(err)
 	}
 	defer l.Close()
-	log.Printf("serving http at %s", l.Addr())
 
 	var h http.Handler = &confluence.Handler{
 		cl,
@@ -151,6 +153,8 @@ func main() {
 			return mux
 		}()
 	}
+
+	log.Printf("start http server at %s", l.Addr())
 	err = http.Serve(l, h)
 	if err != nil {
 		log.Fatal(err)
