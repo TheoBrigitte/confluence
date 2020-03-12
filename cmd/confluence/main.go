@@ -21,8 +21,8 @@ import (
 
 var flags = struct {
 	Addr               string        `help:"HTTP listen address"`
-	PublicIp4          net.IP        `help:"Public IPv4 address"` // TODO: Rename
-	PublicIp6          net.IP        `help:"Public IPv6 address"`
+	PublicIP4          net.IP        `help:"Public IPv4 address"` // TODO: Rename
+	PublicIP6          net.IP        `help:"Public IPv6 address"`
 	CacheCapacity      tagflag.Bytes `help:"Data cache capacity"`
 	TorrentGrace       time.Duration `help:"How long to wait to drop a torrent after its last request"`
 	FileDir            string        `help:"File-based storage directory, overrides piece storage"`
@@ -62,8 +62,8 @@ func newTorrentClient(storage storage.ClientImpl) (ret *torrent.Client, err erro
 	cfg := torrent.NewDefaultClientConfig()
 	cfg.IPBlocklist = blocklist
 	cfg.DefaultStorage = storage
-	cfg.PublicIp4 = flags.PublicIp4
-	cfg.PublicIp6 = flags.PublicIp6
+	cfg.PublicIp4 = flags.PublicIP4
+	cfg.PublicIp6 = flags.PublicIP6
 	cfg.Seed = flags.Seed
 	cfg.NoDefaultPortForwarding = !flags.UPnPPortForwarding
 	cfg.NoDHT = !flags.Dht
