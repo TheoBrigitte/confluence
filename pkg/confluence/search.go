@@ -17,7 +17,7 @@ func searchHandler(w http.ResponseWriter, r *http.Request) {
 	log.Printf("query: %#q\n", query)
 
 	var movies []movie.MovieTorrent
-	var movieChan = make(chan movie.MovieTorrent)
+	var moviesChan = make(chan []movie.MovieTorrent)
 	var errors = make(chan error)
 
 	// yify
@@ -29,9 +29,7 @@ func searchHandler(w http.ResponseWriter, r *http.Request) {
 				errors <- fmt.Errorf("yify search failed: %v", err.Error())
 				return
 			}
-			for _, m := range ms {
-				movieChan <- m
-			}
+			moviesChan <- ms
 
 			return
 		}()
@@ -46,9 +44,7 @@ func searchHandler(w http.ResponseWriter, r *http.Request) {
 				errors <- fmt.Errorf("cpasbien search failed: %v", err.Error())
 				return
 			}
-			for _, m := range ms {
-				movieChan <- m
-			}
+			moviesChan <- ms
 
 			return
 		}()
@@ -56,8 +52,8 @@ func searchHandler(w http.ResponseWriter, r *http.Request) {
 
 	for i := 0; i < 2; i++ {
 		select {
-		case movie := <-movieChan:
-			movies = append(movies, movie)
+		case ms := <-moviesChan:
+			movies = append(movies, ms...)
 		case err := <-errors:
 			log.Printf("error: %v\n", err)
 		}
