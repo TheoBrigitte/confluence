@@ -6,9 +6,9 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/TheoBrigitte/confluence/pkg/cpasbien"
 	"github.com/TheoBrigitte/confluence/pkg/movie"
-	"github.com/TheoBrigitte/confluence/pkg/yify"
+	"github.com/TheoBrigitte/confluence/pkg/movie/provider/cpasbien"
+	"github.com/TheoBrigitte/confluence/pkg/movie/provider/yify"
 )
 
 func searchHandler(w http.ResponseWriter, r *http.Request) {
