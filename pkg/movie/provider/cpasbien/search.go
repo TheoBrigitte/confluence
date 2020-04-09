@@ -14,10 +14,6 @@ import (
 	"golang.org/x/sync/errgroup"
 )
 
-const (
-	searchURLFormat = "/search_torrent/%s.html"
-)
-
 func (c *client) Search(query string) ([]movie.MovieTorrent, error) {
 	escapedQuery := url.PathEscape(query)
 	searchURL := fmt.Sprintf(searchURLFormat, escapedQuery)
