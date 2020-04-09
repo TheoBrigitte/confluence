@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/TheoBrigitte/confluence/pkg/movie"
 	"github.com/TheoBrigitte/confluence/pkg/movie/provider/cpasbien"
@@ -16,7 +17,6 @@ func searchHandler(w http.ResponseWriter, r *http.Request) {
 	query := q.Get("query")
 	log.Printf("query: %#q\n", query)
 
-	var movies []movie.MovieTorrent
 	var moviesChan = make(chan []movie.MovieTorrent)
 	var errors = make(chan error)
 
@@ -50,14 +50,7 @@ func searchHandler(w http.ResponseWriter, r *http.Request) {
 		}()
 	}
 
-	for i := 0; i < 2; i++ {
-		select {
-		case ms := <-moviesChan:
-			movies = append(movies, ms...)
-		case err := <-errors:
-			log.Printf("error: %v\n", err)
-		}
-	}
+	movies := results(2, moviesChan, errors, time.After(10*time.Second))
 
 	if len(movies) == 0 {
 		http.Error(w, fmt.Sprintf("%#q movie not found", query), http.StatusNotFound)
@@ -65,4 +58,19 @@ func searchHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	json.NewEncoder(w).Encode(movies)
+}
+
+func results(n int, moviesChan <-chan []movie.MovieTorrent, errors <-chan error, timeout <-chan time.Time) (movies []movie.MovieTorrent) {
+	for i := 0; i < n; i++ {
+		select {
+		case ms := <-moviesChan:
+			movies = append(movies, ms...)
+		case err := <-errors:
+			log.Printf("error: %v\n", err)
+		case <-timeout:
+			return
+		}
+	}
+
+	return
 }
