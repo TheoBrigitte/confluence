@@ -2,7 +2,7 @@ package yify
 
 import "github.com/TheoBrigitte/confluence/pkg/movie"
 
-func (c client) SearchMoviesWithBestTorrent(query string) ([]movie.MovieTorrent, error) {
+func (c client) Search(query string) ([]movie.MovieTorrent, error) {
 	res, err := c.SearchMovies(query)
 	if err != nil {
 		return nil, err

@@ -24,7 +24,7 @@ func searchHandler(w http.ResponseWriter, r *http.Request) {
 	{
 		go func() {
 			y := yify.New()
-			ms, err := y.SearchMoviesWithBestTorrent(query)
+			ms, err := y.Search(query)
 			if err != nil {
 				errors <- fmt.Errorf("yify search failed: %v", err.Error())
 				return
