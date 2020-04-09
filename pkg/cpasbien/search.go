@@ -21,7 +21,7 @@ const (
 func (c *client) Search(query string) ([]movie.MovieTorrent, error) {
 	escapedQuery := url.PathEscape(query)
 	searchURL := fmt.Sprintf(searchURLFormat, escapedQuery)
-	u, err := c.baseURL.Parse(searchURL)
+	u, err := baseURL.Parse(searchURL)
 	if err != nil {
 		return nil, err
 	}
@@ -68,7 +68,7 @@ func (c *client) getLinks(doc *goquery.Document) (links []*url.URL, mainErr erro
 			return false
 		}
 
-		links = append(links, c.baseURL.ResolveReference(u))
+		links = append(links, baseURL.ResolveReference(u))
 
 		return true
 	})

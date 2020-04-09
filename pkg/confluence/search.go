@@ -40,12 +40,7 @@ func searchHandler(w http.ResponseWriter, r *http.Request) {
 	// cpasbien
 	{
 		go func() {
-			c, err := cpasbien.New(cpasbien.Config{})
-			if err != nil {
-				errors <- fmt.Errorf("cpasbien init failed: %v", err.Error())
-				return
-			}
-
+			c := cpasbien.New()
 			ms, err := c.Search(query)
 			if err != nil {
 				errors <- fmt.Errorf("cpasbien search failed: %v", err.Error())
