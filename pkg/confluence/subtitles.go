@@ -144,6 +144,7 @@ func subtitleHandler(w http.ResponseWriter, r *http.Request) {
 
 	rs := bytes.NewReader(buf.Bytes())
 
+	w.Header().Set("Content-Type", "text/vtt")
 	http.ServeContent(w, r, "", time.Time{}, rs)
 }
 
