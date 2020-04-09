@@ -4,7 +4,6 @@ RUN apk --no-cache add \
 	git
 
 WORKDIR /go/src/github.com/TheoBrigitte/confluence
-COPY vendor vendor
 COPY go.mod .
 COPY go.sum .
 COPY cmd cmd
