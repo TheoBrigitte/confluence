@@ -13,6 +13,7 @@ import (
 
 func main() {
 	// logs configuration: set short filename format
+	// e.g. 2020/04/08 23:36:28 search.go:18: query: `Down by Law`
 	log.SetFlags(log.Flags() | log.Lshortfile)
 
 	// command line arguments
