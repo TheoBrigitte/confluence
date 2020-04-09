@@ -9,7 +9,6 @@ import (
 	"github.com/TheoBrigitte/confluence/pkg/cpasbien"
 	"github.com/TheoBrigitte/confluence/pkg/movie"
 	"github.com/TheoBrigitte/confluence/pkg/yify"
-	"golang.org/x/sync/errgroup"
 )
 
 func searchHandler(w http.ResponseWriter, r *http.Request) {
@@ -17,58 +16,60 @@ func searchHandler(w http.ResponseWriter, r *http.Request) {
 	query := q.Get("query")
 	log.Printf("query: %#q\n", query)
 
-	var movieChan = make(chan []movie.MovieTorrent)
-	var g errgroup.Group
 	var movies []movie.MovieTorrent
-
-	g.Go(func() error {
-		for i := 0; i < 2; i++ {
-			movies = append(movies, <-movieChan...)
-		}
-		return nil
-	})
+	var movieChan = make(chan movie.MovieTorrent)
+	var errors = make(chan error)
 
 	// yify
 	{
-		g.Go(func() error {
-			ms := []movie.MovieTorrent{}
-			defer func() { movieChan <- ms }()
+		go func() {
 			y := yify.New()
-			m, err := y.SearchMoviesWithBestTorrent(query)
+			ms, err := y.SearchMoviesWithBestTorrent(query)
 			if err != nil {
-				return fmt.Errorf("yify search failed: %v", err.Error())
+				errors <- fmt.Errorf("yify search failed: %v", err.Error())
+				return
 			}
-			if len(m) > 0 {
-				ms = m
+			for _, m := range ms {
+				movieChan <- m
 			}
 
-			return nil
-		})
+			return
+		}()
 	}
 
 	// cpasbien
 	{
-		g.Go(func() error {
-			ms := []movie.MovieTorrent{}
-			defer func() { movieChan <- ms }()
+		go func() {
 			c, err := cpasbien.New(cpasbien.Config{})
 			if err != nil {
-				return fmt.Errorf("cpasbien init failed: %v", err.Error())
-			}
-			m, err := c.Search(query)
-			if err != nil {
-				return fmt.Errorf("cpasbien search failed: %v", err.Error())
-			}
-			if len(m) > 0 {
-				ms = m
+				errors <- fmt.Errorf("cpasbien init failed: %v", err.Error())
+				return
 			}
 
-			return nil
-		})
+			ms, err := c.Search(query)
+			if err != nil {
+				errors <- fmt.Errorf("cpasbien search failed: %v", err.Error())
+				return
+			}
+			for _, m := range ms {
+				movieChan <- m
+			}
+
+			return
+		}()
 	}
 
-	if err := g.Wait(); err != nil {
-		http.Error(w, err.Error(), http.StatusNotFound)
+	for i := 0; i < 2; i++ {
+		select {
+		case movie := <-movieChan:
+			movies = append(movies, movie)
+		case err := <-errors:
+			log.Printf("error: %v\n", err)
+		}
+	}
+
+	if len(movies) == 0 {
+		http.Error(w, fmt.Sprintf("%#q movie not found", query), http.StatusNotFound)
 		return
 	}
 
