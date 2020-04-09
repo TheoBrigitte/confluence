@@ -5,23 +5,16 @@ import (
 	"io"
 	"log"
 	"net/http"
-	"net/url"
-)
 
-var (
-	baseURL, _ = url.Parse("https://yts.am/api/v2/")
-
-	//https://yts.am/api/v2/list_movies.json?query_term=test
-	searchEndpoint, _ = url.Parse("list_movies.json")
-	searchQueryKey    = "query_term"
+	"github.com/TheoBrigitte/confluence/pkg/movie/provider"
 )
 
 type client struct {
 	client *http.Client
 }
 
-func New() client {
-	return client{
+func New() provider.Interface {
+	return &client{
 		client: &http.Client{},
 	}
 }

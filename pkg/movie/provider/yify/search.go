@@ -21,7 +21,7 @@ type searchResponseData struct {
 }
 
 func (c client) SearchMovies(query string) (*searchResponse, error) {
-	u := searchEndpoint
+	u := searchURL
 	q := u.Query()
 	q.Set(searchQueryKey, query)
 	u.RawQuery = q.Encode()
