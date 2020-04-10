@@ -12,6 +12,10 @@ import (
 	"github.com/TheoBrigitte/confluence/pkg/movie/provider/yify"
 )
 
+var (
+	timeout = time.After(5 * time.Second)
+)
+
 func searchHandler(w http.ResponseWriter, r *http.Request) {
 	q := r.URL.Query()
 	query := q.Get("query")
@@ -50,7 +54,7 @@ func searchHandler(w http.ResponseWriter, r *http.Request) {
 		}()
 	}
 
-	movies := results(2, moviesChan, errors, time.After(5*time.Second))
+	movies := results(2, moviesChan, errors, timeout)
 
 	if len(movies) == 0 {
 		http.Error(w, fmt.Sprintf("%#q movie not found", query), http.StatusNotFound)
