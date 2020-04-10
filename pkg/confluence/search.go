@@ -50,7 +50,7 @@ func searchHandler(w http.ResponseWriter, r *http.Request) {
 		}()
 	}
 
-	movies := results(2, moviesChan, errors, time.After(10*time.Second))
+	movies := results(2, moviesChan, errors, time.After(5*time.Second))
 
 	if len(movies) == 0 {
 		http.Error(w, fmt.Sprintf("%#q movie not found", query), http.StatusNotFound)
