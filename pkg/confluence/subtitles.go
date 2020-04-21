@@ -84,7 +84,11 @@ func subtitlesHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	subtitles, err := searcher.SearchSubtitles(head, tail, size, []string{"eng"})
+	languages, ok := q["lang"]
+	if !ok {
+		languages = []string{"eng"}
+	}
+	subtitles, err := searcher.SearchSubtitles(head, tail, size, languages)
 	if err != nil {
 		http.Error(w, fmt.Sprintf("subtitles get failed: %v", err.Error()), http.StatusBadRequest)
 		return
