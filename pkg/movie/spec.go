@@ -11,9 +11,10 @@ type Movie struct {
 }
 
 type MovieBase struct {
-	ID    int    `json:"id"`
-	Title string `json:"title"`
-	Year  int    `json:"year"`
+	ID         int        `json:"id"`
+	Title      string     `json:"title"`
+	Year       int        `json:"year"`
+	ExternalID ExternalID `json:"external_id"`
 }
 
 type Torrent struct {
@@ -24,4 +25,8 @@ type Torrent struct {
 	SizeBytes int    `json:"size_bytes"`
 	Type      string `json:"type"`
 	URL       string `json:"url"`
+}
+
+type ExternalID struct {
+	IMDB string `json:"imdb"`
 }
