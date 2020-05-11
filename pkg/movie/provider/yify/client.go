@@ -37,6 +37,6 @@ func (c client) do(method, url string, body io.Reader) (*http.Response, error) {
 	return res, err
 }
 
-func toJson(res *http.Response, dst interface{}) error {
+func decodeJSON(res *http.Response, dst interface{}) error {
 	return json.NewDecoder(res.Body).Decode(dst)
 }

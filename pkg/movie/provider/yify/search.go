@@ -31,7 +31,7 @@ func (c client) searchMovies(query string) (*searchResponse, error) {
 	}
 
 	var response searchResponse
-	err = toJson(res, &response)
+	err = decodeJSON(res, &response)
 	if err != nil {
 		return nil, err
 	}
