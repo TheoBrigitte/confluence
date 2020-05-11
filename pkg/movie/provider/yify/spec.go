@@ -67,3 +67,7 @@ func (m yMovie) ToMovieTorrent() movie.MovieTorrent {
 
 	return mt
 }
+
+func (m yMovie) HasTorrent() bool {
+	return len(m.Torrents) > 0
+}

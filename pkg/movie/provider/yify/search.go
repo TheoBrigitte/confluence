@@ -14,7 +14,9 @@ func (c *client) Search(query string) ([]movie.MovieTorrent, error) {
 
 	movies := []movie.MovieTorrent{}
 	for _, m := range res.Data.Movies {
-		movies = append(movies, m.ToMovieTorrent())
+		if m.HasTorrent() {
+			movies = append(movies, m.ToMovieTorrent())
+		}
 	}
 
 	return movies, nil
