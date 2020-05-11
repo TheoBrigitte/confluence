@@ -83,6 +83,7 @@ func (c client) addTorrent(input []movieDetail) (movies []movie.MovieTorrent, er
 
 			tmdb_movie := m.ToMovieTorrent()
 			tmdb_movie.Torrent = yify_movie.Torrent
+			tmdb_movie.MovieBase.Year = yify_movie.Year
 			tmdb_movie.MovieBase.ExternalID.IMDB = external_ids.IMDB
 
 			movieChan <- tmdb_movie
