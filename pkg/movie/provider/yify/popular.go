@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/TheoBrigitte/confluence/pkg/movie"
+	"github.com/TheoBrigitte/confluence/pkg/util"
 )
 
 func (c *client) Popular(limit int) ([]movie.MovieTorrent, error) {
@@ -34,7 +35,7 @@ func (c client) popularMovies(limit int) (*searchResponse, error) {
 	}
 
 	var response searchResponse
-	err = decodeJSON(res, &response)
+	err = util.DecodeJSON(res, &response)
 	if err != nil {
 		return nil, err
 	}

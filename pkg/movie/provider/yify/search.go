@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/TheoBrigitte/confluence/pkg/movie"
+	"github.com/TheoBrigitte/confluence/pkg/util"
 )
 
 func (c *client) Search(query string) ([]movie.MovieTorrent, error) {
@@ -33,7 +34,7 @@ func (c client) searchMovies(query string) (*searchResponse, error) {
 	}
 
 	var response searchResponse
-	err = decodeJSON(res, &response)
+	err = util.DecodeJSON(res, &response)
 	if err != nil {
 		return nil, err
 	}

@@ -1,7 +1,6 @@
 package yify
 
 import (
-	"encoding/json"
 	"io"
 	"log"
 	"net/http"
@@ -35,8 +34,4 @@ func (c client) do(method, url string, body io.Reader) (*http.Response, error) {
 	log.Printf("response %s %#q body=%d %v", res.Status, u.String(), res.ContentLength, res.Header)
 
 	return res, err
-}
-
-func decodeJSON(res *http.Response, dst interface{}) error {
-	return json.NewDecoder(res.Body).Decode(dst)
 }
