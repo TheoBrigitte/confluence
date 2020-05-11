@@ -6,4 +6,5 @@ import (
 
 type Interface interface {
 	Search(string) ([]movie.MovieTorrent, error)
+	Popular(int) ([]movie.MovieTorrent, error)
 }

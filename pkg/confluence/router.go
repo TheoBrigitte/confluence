@@ -25,5 +25,6 @@ func init() {
 	mux.Handle("/subtitles", alice.New(withTorrentContext).ThenFunc(subtitlesHandler))
 	mux.Handle("/subtitle", http.HandlerFunc(subtitleHandler))
 	mux.Handle("/search", http.HandlerFunc(searchHandler))
+	mux.Handle("/popular", http.HandlerFunc(popularHandler))
 	mux.Handle("/", http.HandlerFunc(rootHandler))
 }
