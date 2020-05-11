@@ -8,7 +8,7 @@ import (
 )
 
 func (c *client) Search(query string) ([]movie.MovieTorrent, error) {
-	res, err := c.SearchMovies(map[string]string{
+	res, err := c.searchMovies(map[string]string{
 		SearchQueryKey: query,
 	})
 	if err != nil {
@@ -25,7 +25,7 @@ func (c *client) Search(query string) ([]movie.MovieTorrent, error) {
 	return movies, nil
 }
 
-func (c *client) SearchMovies(query map[string]string) (*searchResponse, error) {
+func (c *client) searchMovies(query map[string]string) (*searchResponse, error) {
 	u := searchURL
 	if len(query) > 0 {
 		q := u.Query()

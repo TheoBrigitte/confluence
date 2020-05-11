@@ -12,7 +12,12 @@ type Popular interface {
 	Popular(int) ([]movie.MovieTorrent, error)
 }
 
-type PopularSearcher interface {
+type Finder interface {
+	Find(string) (*movie.MovieTorrent, error)
+}
+
+type PopularSearchFinder interface {
 	Searcher
 	Popular
+	Finder
 }
