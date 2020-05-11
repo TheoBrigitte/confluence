@@ -7,9 +7,9 @@ import (
 var (
 	baseURL, _ = url.Parse("https://api.themoviedb.org")
 
-	popularURL = "/movie/popular"
+	popularURL = "/3/movie/popular"
 
-	externalIDURLFormat = "/movie/%d/external_ids"
+	externalIDURLFormat = "/3/movie/%d/external_ids"
 
 	imageHost = "https://image.tmdb.org/t/p"
 )
