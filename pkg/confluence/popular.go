@@ -6,7 +6,7 @@ import (
 	"net/http"
 
 	"github.com/TheoBrigitte/confluence/pkg/movie"
-	"github.com/TheoBrigitte/confluence/pkg/movie/provider/yify"
+	"github.com/TheoBrigitte/confluence/pkg/movie/provider/tmdb"
 )
 
 var (
@@ -20,10 +20,10 @@ func popularHandler(w http.ResponseWriter, r *http.Request) {
 	// yify
 	{
 		go func() {
-			y := yify.New()
+			y := tmdb.New()
 			ms, err := y.Popular(popularLimit)
 			if err != nil {
-				errors <- fmt.Errorf("yify popular failed: %v", err.Error())
+				errors <- fmt.Errorf("tmdb popular failed: %v", err.Error())
 				return
 			}
 			moviesChan <- ms
