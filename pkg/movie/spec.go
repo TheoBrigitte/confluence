@@ -13,6 +13,7 @@ type Movie struct {
 type MovieBase struct {
 	ID         int        `json:"id"`
 	Title      string     `json:"title"`
+	Image      string     `json:"image,omitempty"`
 	Year       int        `json:"year"`
 	ExternalID ExternalID `json:"external_id"`
 }
