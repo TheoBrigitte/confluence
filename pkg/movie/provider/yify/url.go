@@ -10,7 +10,7 @@ var (
 	// Search query example:
 	// https://yts.am/api/v2/list_movies.json?query_term=test
 	searchURL, _   = url.Parse("list_movies.json")
-	searchQueryKey = "query_term"
-	searchLimitKey = "limit"
-	searchSortKey  = "sort_by"
+	SearchQueryKey = "query_term"
+	SearchLimitKey = "limit"
+	SearchSortKey  = "sort_by"
 )

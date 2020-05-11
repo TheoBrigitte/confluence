@@ -27,7 +27,7 @@ func (c client) popularMovies(limit int) (*searchResponse, error) {
 	u := searchURL
 	q := u.Query()
 	//q.Set(searchLimitKey, limit)
-	q.Set(searchSortKey, "peers")
+	q.Set(SearchSortKey, "peers")
 	u.RawQuery = q.Encode()
 	res, err := c.do(http.MethodGet, u.String(), nil)
 	if err != nil {
