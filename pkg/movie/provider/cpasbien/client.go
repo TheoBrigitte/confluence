@@ -10,7 +10,7 @@ type client struct {
 	http *http.Client
 }
 
-func New() provider.Interface {
+func New() provider.Searcher {
 	return &client{
 		http: &http.Client{},
 	}

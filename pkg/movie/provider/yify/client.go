@@ -13,7 +13,7 @@ type client struct {
 	client *http.Client
 }
 
-func New() provider.Interface {
+func New() provider.PopularSearcher {
 	return &client{
 		client: &http.Client{},
 	}
