@@ -8,7 +8,6 @@ import (
 	"path/filepath"
 
 	"github.com/anacrolix/missinggo/filecache"
-	"github.com/anacrolix/missinggo/x"
 	"github.com/anacrolix/torrent"
 	"github.com/anacrolix/torrent/iplist"
 	"github.com/anacrolix/torrent/storage"
@@ -50,14 +49,16 @@ func newTorrentClient(storage storage.ClientImpl) (ret *torrent.Client, err erro
 }
 
 // getStorage create a storage.
-func getStorage() (_ storage.ClientImpl, onTorrentGrace func(torrent.InfoHash)) {
+func getStorage() (storage.ClientImpl, func(torrent.InfoHash), error) {
 	if flags.FileDir != "" {
 		return storage.NewFileByInfoHash(flags.FileDir), func(ih torrent.InfoHash) {
 			os.RemoveAll(filepath.Join(flags.FileDir, ih.HexString()))
-		}
+		}, nil
 	}
 	fc, err := filecache.NewCache("filecache")
-	x.Pie(err)
+	if err != nil {
+		return nil, nil, err
+	}
 
 	// Register filecache debug endpoints on the default muxer.
 	http.HandleFunc("/debug/filecache/status", func(w http.ResponseWriter, r *http.Request) {
@@ -74,5 +75,5 @@ func getStorage() (_ storage.ClientImpl, onTorrentGrace func(torrent.InfoHash)) 
 
 	fc.SetCapacity(flags.CacheCapacity.Int64())
 	storageProvider := fc.AsResourceProvider()
-	return storage.NewResourcePieces(storageProvider), func(ih torrent.InfoHash) {}
+	return storage.NewResourcePieces(storageProvider), func(ih torrent.InfoHash) {}, nil
 }

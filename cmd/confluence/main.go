@@ -19,8 +19,12 @@ func main() {
 	// command line arguments
 	tagflag.Parse(&flags)
 
-	// torrent client
-	storage, onTorrentGraceExtra := getStorage()
+	// create torrent client
+	storage, onTorrentGraceExtra, err := getStorage()
+	if err != nil {
+		log.Fatalf("error creating storage: %v", err)
+	}
+
 	cl, err := newTorrentClient(storage)
 	if err != nil {
 		log.Fatalf("error creating torrent client: %s", err)
