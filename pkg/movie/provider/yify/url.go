@@ -5,7 +5,7 @@ import (
 )
 
 var (
-	baseURL, _ = url.Parse("https://yst.am/api/v2/")
+	baseURL, _ = url.Parse("https://yts.mx/api/v2/")
 
 	// Search query example:
 	// https://yts.am/api/v2/list_movies.json?query_term=test
