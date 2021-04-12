@@ -31,7 +31,10 @@ func (c client) do(method, url string, body io.Reader) (*http.Response, error) {
 
 	log.Printf("request %s %#q body=%t", method, u.String(), body != nil)
 	res, err := c.client.Do(req)
+	if err != nil {
+		return nil, err
+	}
 	log.Printf("response %s %#q body=%d %v", res.Status, u.String(), res.ContentLength, res.Header)
 
-	return res, err
+	return res, nil
 }

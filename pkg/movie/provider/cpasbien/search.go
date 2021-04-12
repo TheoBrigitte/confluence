@@ -23,11 +23,11 @@ func (c *client) Search(query string) ([]movie.MovieTorrent, error) {
 	}
 	log.Printf("request %s %#q", "GET", u.String())
 	res, err := c.http.Get(u.String())
-	log.Printf("response %s %#q body=%d %v", res.Status, u.String(), res.ContentLength, res.Header)
 	if err != nil {
 		return nil, err
 	}
 	defer res.Body.Close()
+	log.Printf("response %s %#q body=%d %v", res.Status, u.String(), res.ContentLength, res.Header)
 
 	links, err := c.searchProcess(res.Body)
 	if err != nil {
